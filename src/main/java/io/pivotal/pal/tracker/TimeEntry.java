@@ -63,7 +63,7 @@ public class TimeEntry {
         this.date = date;
     }
 
-    public long getHours(){
+    public int getHours(){
         return hours;
     }
 
