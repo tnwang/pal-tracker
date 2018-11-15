@@ -1,4 +1,4 @@
-package test.pivotal.pal.tracker;
+package io.pivotal.pal.tracker;
 
 import io.pivotal.pal.tracker.TimeEntryRepository;
 import org.springframework.boot.actuate.health.Health;
@@ -10,11 +10,23 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TimeEntryHealthIndicator implements HealthIndicator{
-    
+
     private TimeEntryRepository store;
+
+    public TimeEntryHealthIndicator(TimeEntryRepository store) {
+        this.store = store;
+    }
 
     @Override
     public Health health() {
-        return null;
+        Health.Builder builder = new Health.Builder();
+
+        if(store.list().size() < 5) {
+            builder.up();
+        } else {
+            builder.down();
+        }
+
+        return builder.build();
     }
 }
